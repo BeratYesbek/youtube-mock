@@ -8,6 +8,7 @@ import beratyesbek.youtube.mock.model.dto.user.UserReadDTO;
 import beratyesbek.youtube.mock.model.dto.user.UserUpdateDTO;
 import beratyesbek.youtube.mock.model.mapper.UserMapper;
 import beratyesbek.youtube.mock.repository.UserRepository;
+import beratyesbek.youtube.mock.service.email.user.UserEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 
 @Service
@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final UserPrepare userPrepare;
+    private final UserEmailService userEmailService;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
         checkEmailExists(userCreateDTO.getEmail());
         final User user = userPrepare.prepareUserForCreation(userCreateDTO);
         userRepository.save(user);
+        userEmailService.sendVerificationEmail(user.getEmail(), user.getFirstname(), user.getLastname());
         return userMapper.mapToReadDTO(user);
     }
 
@@ -66,13 +68,13 @@ public class UserServiceImpl implements UserService {
 
     private void checkPhoneExists(String phone) {
         if (Boolean.TRUE.equals(userRepository.existsByPhone(phone))) {
-            throw new RuntimeException("USER EXISTS WITH THIS PHONE");
+            throw new RuntimeException("User already exists with this phone");
         }
     }
 
     private void checkEmailExists(String email) {
         if (Boolean.TRUE.equals(userRepository.existsByEmail(email))) {
-            throw new RuntimeException("USER EXISTS WITH THIS EMAIL");
+            throw new RuntimeException("User already exists with this email");
         }
     }
 

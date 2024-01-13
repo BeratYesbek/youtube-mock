@@ -24,4 +24,7 @@ public class UserCreateDTO {
         @NotBlank(message = "phone cannot be blank")
         String phone;
 
+        @NotBlank(message = "password cannot be blank")
+        String password;
+
 }

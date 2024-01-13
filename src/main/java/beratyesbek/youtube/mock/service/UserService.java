@@ -7,7 +7,6 @@ import beratyesbek.youtube.mock.model.dto.user.UserCreateDTO;
 import beratyesbek.youtube.mock.model.dto.user.UserReadDTO;
 import beratyesbek.youtube.mock.model.dto.user.UserUpdateDTO;
 
-import java.util.List;
 
 public interface UserService {
     UserReadDTO create(UserCreateDTO userCreateDTO);
