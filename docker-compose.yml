@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  mock_postgres:
+    image: postgres
+    container_name: mock_postgres
+    read_only: true
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=user123
+      - POSTGRES_DB=mock
+    expose:
+      - "54322"
+    ports:
+      - "54322:54322"
+    tmpfs:
+      - /tmp
+      - /run
+      - /run/postgresql
+    volumes:
+      - mock_postgres:/var/lib/postgresql/data
+    command: -p 54322
+volumes:
+  mock_postgres:

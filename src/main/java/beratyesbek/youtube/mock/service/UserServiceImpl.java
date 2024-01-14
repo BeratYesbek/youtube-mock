@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         checkEmailExists(userCreateDTO.getEmail());
         final User user = userPrepare.prepareUserForCreation(userCreateDTO);
         userRepository.save(user);
-        userEmailService.sendVerificationEmail(user.getEmail(), user.getFirstname(), user.getLastname());
+        //userEmailService.sendVerificationEmail(user.getEmail(), user.getFirstname(), user.getLastname());
         return userMapper.mapToReadDTO(user);
     }
 

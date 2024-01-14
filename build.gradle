@@ -3,6 +3,8 @@ plugins {
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'org.jetbrains.kotlin.jvm' version '1.7.0'
+    id 'org.flywaydb.flyway' version '9.12.0'
+
 
 }
 
@@ -27,10 +29,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    runtimeOnly 'com.h2database:h2'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // DB
+    runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.flywaydb:flyway-core:9.12.0'
 
 
 
@@ -45,11 +50,14 @@ dependencies {
     // Mocking
     implementation group: 'org.mockito', name: 'mockito-core', version: '+'
 
-    // Kotlin
+    // Test
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit:1.7.20'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:postgresql:1.19.1'
+    testImplementation 'org.testcontainers:testcontainers:1.15.3'
+    testImplementation 'org.testcontainers:junit-jupiter:1.15.3'
 }
 
 tasks.named('test') {
